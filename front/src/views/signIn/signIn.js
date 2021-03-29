@@ -1,14 +1,14 @@
-import './login.css';
+import './signIn.css';
 import React from 'react';
 
 import ErrorFooter from './components/errorFooter';
-import LoginButton from './components/loginButton';
+import SignInButton from './components/signInButton';
 
 import UserLogo from '../../assets/user.svg';
 
 import AuthService from '../../services/authService';
 
-export default class Login extends React.Component {
+export default class WeatherView extends React.Component {
     constructor(props) {
         super(props);
         let initState = {
@@ -33,16 +33,16 @@ export default class Login extends React.Component {
         this.setState({ loading: false });
     }
 
-    async doLogin() {
+    async doSignIn() {
         this.setState({ loading: true });
 
-        const { token, error } = await AuthService.getToken();
+        const { error } = await AuthService.singIn();
         if (error) {
             this.setState({ loading: false, error });
             return;
         }
-        await localStorage.setItem('token', token);
-        window.location = `/app`;
+        //location to logIn
+        window.location = `/`;
     }
 
     renderLoading() {
@@ -68,7 +68,7 @@ export default class Login extends React.Component {
                             placeholder='password'
                         />
 
-                        <LoginButton isDisabled={this.state.loading} onClick={this.doLogin.bind(this)} />
+                        <SignInButton isDisabled={this.state.loading} isLoading={this.state.isLoading} onClick={this.doSignIn.bind(this)} />
                         <ErrorFooter error={this.state.error} />
                     </div>
                 </div>
