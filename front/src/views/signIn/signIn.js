@@ -14,6 +14,8 @@ export default class WeatherView extends React.Component {
         let initState = {
             loading: true,
             error: null,
+            user_name: null,
+            password: null,
         };
         this.state = { ...initState, ...props.location.state };
     }
@@ -36,11 +38,12 @@ export default class WeatherView extends React.Component {
     async doSignIn() {
         this.setState({ loading: true });
 
-        const { error } = await AuthService.singIn();
+        const { error } = await AuthService.singIn({ user_name: this.state.user_name, password: this.state.password });
         if (error) {
             this.setState({ loading: false, error });
             return;
         }
+        alert('user created successfully!');
         //location to logIn
         window.location = `/`;
     }
@@ -59,16 +62,28 @@ export default class WeatherView extends React.Component {
                             <img src={UserLogo} height='130px' id='icon' alt='User Icon' />
                         </div>
 
-                        <input type='text' id='login' className='fadeIn second' name='login' placeholder='login' />
+                        <input
+                            type='text'
+                            onChange={({ target: { value } }) => this.setState({ user_name: value })}
+                            id='login'
+                            className='fadeIn second'
+                            name='login'
+                            placeholder='login'
+                        />
                         <input
                             type='password'
+                            onChange={({ target: { value } }) => this.setState({ password: value })}
                             id='password'
                             className='fadeIn third'
                             name='login'
                             placeholder='password'
                         />
 
-                        <SignInButton isDisabled={this.state.loading} isLoading={this.state.isLoading} onClick={this.doSignIn.bind(this)} />
+                        <SignInButton
+                            isDisabled={this.state.loading}
+                            isLoading={this.state.isLoading}
+                            onClick={this.doSignIn.bind(this)}
+                        />
                         <ErrorFooter error={this.state.error} />
                     </div>
                 </div>
