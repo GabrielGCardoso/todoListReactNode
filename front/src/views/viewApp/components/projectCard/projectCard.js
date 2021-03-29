@@ -13,6 +13,8 @@ export default class ProjectCard extends React.Component {
         super(props);
         this.state = {
             newTask: {},
+            inputValue: this.props.project.title,
+            isUpdate: false,
         };
     }
 
@@ -92,14 +94,38 @@ export default class ProjectCard extends React.Component {
         );
     }
 
+    //update project title
+    onBlurUpdateProjectTitle() {
+        this.setState({ isUpdate: false });
+        this.onUpdateProject({ ...this.props.project, title: this.state.inputValue });
+    }
+
+    renderHeader() {
+        if (this.state.isUpdate)
+            return (
+                <input
+                    type='text'
+                    value={this.state.inputValue}
+                    onChange={({ target: { value } }) => this.setState({ inputValue: value })}
+                    onBlur={this.onBlurUpdateProjectTitle.bind(this)}
+                />
+            );
+        return <div className='float-left'>{this.props.project.title}</div>;
+    }
+
     render() {
         return (
             <div>
-                <div className='card'>
+                <div className='card' style={{ marginBottom: '10px' }}>
                     <div className='card-header'>
-                        <div className='float-left'>{this.props.project.title}</div>
+                        {this.renderHeader()}
                         <div className='float-right'>
-                            <FontAwesomeIcon onClick={this.onUpdateProject.bind(this)} style={{marginRight:'5px'}} icon={faEdit} color='gray' />
+                            <FontAwesomeIcon
+                                onClick={() => this.setState({ isUpdate: true })}
+                                style={{ marginRight: '5px' }}
+                                icon={faEdit}
+                                color='gray'
+                            />
                             <FontAwesomeIcon onClick={this.onDeleteProject.bind(this)} icon={faTrash} color='red' />
                         </div>
                     </div>
