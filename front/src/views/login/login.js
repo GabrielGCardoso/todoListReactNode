@@ -14,6 +14,8 @@ export default class Login extends React.Component {
         let initState = {
             loading: true,
             error: null,
+            user_name: '',
+            password: '',
         };
         this.state = { ...initState, ...props.location.state };
     }
@@ -36,7 +38,10 @@ export default class Login extends React.Component {
     async doLogin() {
         this.setState({ loading: true });
 
-        const { token, error } = await AuthService.getToken();
+        const { token, error } = await AuthService.getToken({
+            user_name: this.state.user_name,
+            password: this.state.password,
+        });
         if (error) {
             this.setState({ loading: false, error });
             return;
@@ -59,8 +64,16 @@ export default class Login extends React.Component {
                             <img src={UserLogo} height='130px' id='icon' alt='User Icon' />
                         </div>
 
-                        <input type='text' id='login' className='fadeIn second' name='login' placeholder='login' />
                         <input
+                            onChange={({ target: { value } }) => this.setState({ user_name: value })}
+                            type='text'
+                            id='login'
+                            className='fadeIn second'
+                            name='login'
+                            placeholder='login'
+                        />
+                        <input
+                            onChange={({ target: { value } }) => this.setState({ password: value })}
                             type='password'
                             id='password'
                             className='fadeIn third'

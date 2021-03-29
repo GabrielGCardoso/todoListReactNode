@@ -1,15 +1,16 @@
-const React = require('react');
-const axios = require('axios');
+import api from './api';
 
-export default new (class AuthService extends React.Component {
-    constructor(props) {
-        super(props);
-        this.defaultURL = 'http://localhost:3000';
+class AuthService {
+    constructor(api) {
+        this.api = api();
     }
 
-    getToken() {
-        return new Promise((resolve) => {
-            resolve({ token: '120394123' });
+    getToken(credential) {
+        return new Promise((resolve, reject) => {
+            this.api
+                .post('/auth/login', credential)
+                .then((resp) => resolve({ token: resp.data.token }))
+                .catch((err) => resolve({ error: err }));
         });
     }
 
@@ -27,4 +28,5 @@ export default new (class AuthService extends React.Component {
             resolve({ error: 'token not found' });
         });
     }
-})();
+}
+export default new AuthService(api);

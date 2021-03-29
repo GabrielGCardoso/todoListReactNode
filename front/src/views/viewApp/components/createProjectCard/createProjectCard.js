@@ -25,11 +25,11 @@ export default class CreateProjectCard extends React.Component {
 
     render() {
         return (
-            <div class='card'>
-                <div class='card-header'>Create a project</div>
-                <div class='card-body'>
+            <div className='card'>
+                <div className='card-header'>Create a project</div>
+                <div className='card-body'>
                     <input onChange={this.onChange.bind(this)} type='text'></input>
-                    <button onClick={this.createProject.bind(this)} class='btn btn-primary'>
+                    <button onClick={this.createProject.bind(this)} className='btn btn-primary'>
                         Create Project
                     </button>
                 </div>
