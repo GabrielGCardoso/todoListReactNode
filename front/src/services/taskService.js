@@ -11,7 +11,7 @@ export default new (class TaskService extends React.Component {
         return new Promise((resolve) => {
             let error = { message: 'could not create task' };
             if (!task) resolve({ error });
-            resolve({ task: { ...task, checked: false } });
+            resolve({ task: { ...task, id:3, checked: false } });
         });
     }
 
