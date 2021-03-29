@@ -6,6 +6,6 @@
 - `npm run start`
 
 ## start back-end 
-- `cd front`
+- `cd back`
 - `npm i`
 - `npm run dev`
