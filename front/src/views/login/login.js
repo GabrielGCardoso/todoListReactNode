@@ -8,7 +8,7 @@ import UserLogo from '../../assets/user.svg';
 
 import AuthService from '../../services/authService';
 
-export default class WeatherView extends React.Component {
+export default class Login extends React.Component {
     constructor(props) {
         super(props);
         let initState = {

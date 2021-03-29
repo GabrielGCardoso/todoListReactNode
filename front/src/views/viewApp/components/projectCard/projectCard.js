@@ -99,24 +99,14 @@ export default class ProjectCard extends React.Component {
                     <div className='card-header'>
                         <div className='float-left'>{this.props.project.title}</div>
                         <div className='float-right'>
-                            <FontAwesomeIcon onClick={this.onUpdateProject.bind(this)} icon={faEdit} color='gray' />
+                            <FontAwesomeIcon onClick={this.onUpdateProject.bind(this)} style={{marginRight:'5px'}} icon={faEdit} color='gray' />
                             <FontAwesomeIcon onClick={this.onDeleteProject.bind(this)} icon={faTrash} color='red' />
                         </div>
                     </div>
                     <div className='card-body'>
-                        {/* <h5 className='card-title'></h5> */}
                         <h6 className='card-subtitle mb-2 text-muted'>{this.props.project.subtitle}</h6>
                         {this.renderTasks()}
                         {this.renderInputTask()}
-                        {/* <p className='card-text'>
-                    Some quick example text to build on the card title and make up the bulk of the card's content.
-                </p>
-                <a href='#' className='card-link'>
-                    Card link
-                </a>
-                <a href='#' className='card-link'>
-                    Another link
-                </a> */}
                     </div>
                 </div>
             </div>
