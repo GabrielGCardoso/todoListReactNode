@@ -86,9 +86,9 @@ export default class ViewApp extends React.Component {
 
     renderProjects(projectsArray) {
         projectsArray.sort(this.projectsComparator);
-        return projectsArray.map((project) => {
+        const list = projectsArray.map((project) => {
             return (
-                <div className='col-sm' id={project.id}>
+                <div className='col-sm' key={project.id}>
                     <ProjectCard
                         onDelete={this.onDelete.bind(this)}
                         onUpdate={this.onUpdate.bind(this)}
@@ -97,6 +97,7 @@ export default class ViewApp extends React.Component {
                 </div>
             );
         });
+        return <ul>{list}</ul>;
     }
 
     render() {

@@ -5,7 +5,6 @@ import SignIn from './signIn/signIn';
 
 import Navbar from '../common/components/navBar/navBar';
 
-// import WeatherBoardView from './weatherView/weatherView';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 

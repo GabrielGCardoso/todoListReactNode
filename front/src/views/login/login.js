@@ -36,7 +36,7 @@ export default class Login extends React.Component {
     }
 
     async doLogin() {
-        this.setState({ loading: true });
+        this.setState({ loading: true, error: null });
 
         const { token, error } = await AuthService.getToken({
             user_name: this.state.user_name,
