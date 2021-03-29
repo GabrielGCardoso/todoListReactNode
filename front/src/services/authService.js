@@ -5,18 +5,28 @@ class AuthService {
         this.api = api();
     }
 
+    errorHandler = function (err) {
+        if (err && err.response && err.response.data && err.response.data.message) {
+            return { error: { message: err.response.data.message } };
+        }
+        return { error: err };
+    };
+
     getToken(credential) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.api
                 .post('/auth/login', credential)
                 .then((resp) => resolve({ token: resp.data.token }))
-                .catch((err) => resolve({ error: err }));
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    singIn() {
+    singIn(credential) {
         return new Promise((resolve) => {
-            resolve({ success: 'user created successfully!' });
+            this.api
+                .post('/auth/sign-up', credential)
+                .then((resp) => resolve({ token: resp.data.token }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
