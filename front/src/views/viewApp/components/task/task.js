@@ -9,6 +9,10 @@ import TaskService from '../../../../services/taskService';
 export default class Task extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isUpdate: false,
+            inputValue: this.props.task.name,
+        };
     }
 
     async onDelete() {
@@ -37,7 +41,23 @@ export default class Task extends React.Component {
         this.onUpdate({ ...this.props.task, checked });
     }
 
+    //update task title
+    onBlurUpdateTaskName() {
+        this.setState({ isUpdate: false });
+        this.onUpdate({ ...this.props.task, name: this.state.inputValue });
+    }
+
     renderCheckbox() {
+        if (this.state.isUpdate)
+            return (
+                <input
+                    type='text'
+                    value={this.state.inputValue}
+                    onChange={({ target: { value } }) => this.setState({ inputValue: value })}
+                    onBlur={this.onBlurUpdateTaskName.bind(this)}
+                />
+            );
+
         return (
             <div className='form-check task'>
                 <input
@@ -52,7 +72,7 @@ export default class Task extends React.Component {
                 </label>
 
                 <FontAwesomeIcon
-                    onClick={this.onUpdate.bind(this)}
+                    onClick={() => this.setState({ isUpdate: true })}
                     style={{ marginRight: '3px', marginLeft: '3px' }}
                     icon={faEdit}
                     color='gray'
