@@ -1,0 +1,9 @@
+###Creating Client
+POST http://localhost:3000/user/create HTTP/1.1
+content-type: application/json
+
+{
+    "user_name": "guest@guest",
+    "password": "guest",
+}
+###Creating account
