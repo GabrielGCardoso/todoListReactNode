@@ -5,6 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(require('cors')());
 app.use('/auth', require('src/http/presentation/routes/userRoutes'));
 app.use(require('src/http/presentation/middlewares/exceptionMiddleware'));
 
