@@ -12,7 +12,7 @@ export default class ProjectCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newTask: {},
+            newTask: { name: '' },
             inputValue: this.props.project.title,
             isUpdate: false,
         };
@@ -53,33 +53,44 @@ export default class ProjectCard extends React.Component {
         this.onUpdateProject({ id, title, tasks: newTaskArray });
     }
 
-    async createNewTask() {
-        let { task: newTask } = await TaskService.createTask(this.state.newTask);
-        const { id, title, tasks } = this.props.project;
-        let newTaskArray = [...tasks, newTask];
-        this.onUpdateProject({ id, title, tasks: newTaskArray });
-    }
-
-    onTypingTaskName({ target: { value } }) {
-        this.setState({ newTask: { name: value } });
-    }
-
+    taskComparator = function (a, b) {
+        if (a.id > b.id) {
+            return 1;
+        }
+        if (a.id < b.id) {
+            return -1;
+        }
+        return 0;
+    };
     renderTasks() {
-        return this.props.project.tasks.map((task) => (
+        this.props.project.tasks.sort(this.taskComparator);
+        const taskList = this.props.project.tasks.map((task) => (
             <Task
-                id={task.id}
+                key={task.id}
                 onUpdate={this.onUpdateTask.bind(this)}
                 onDelete={this.onDeleteTask.bind(this)}
                 task={task}
             />
         ));
+        return <ul>{taskList}</ul>;
     }
 
+    async createNewTask() {
+        let { task: newTask } = await TaskService.createTask(this.state.newTask);
+        const { id, title, tasks } = this.props.project;
+        let newTaskArray = [...tasks, newTask];
+        this.onUpdateProject({ id, title, tasks: newTaskArray });
+        this.setState({ newTask: { name: '' } });
+    }
+    onTypingTaskName({ target: { value } }) {
+        this.setState({ newTask: { name: value } });
+    }
     renderInputTask() {
         return (
             <div className='input-group'>
                 <input
                     onChange={this.onTypingTaskName.bind(this)}
+                    value={this.state.newTask.name}
                     type='text'
                     className='form-control'
                     placeholder='type a new task here'

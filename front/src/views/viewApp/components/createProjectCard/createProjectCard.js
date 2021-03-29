@@ -17,6 +17,7 @@ export default class CreateProjectCard extends React.Component {
             return;
         }
         this.props.createProject(project);
+        this.setState({ actualName: '' });
     }
 
     onChange({ target }) {
@@ -28,7 +29,7 @@ export default class CreateProjectCard extends React.Component {
             <div className='card'>
                 <div className='card-header'>Create a project</div>
                 <div className='card-body'>
-                    <input onChange={this.onChange.bind(this)} type='text'></input>
+                    <input onChange={this.onChange.bind(this)} value={this.state.actualName} type='text'></input>
                     <button onClick={this.createProject.bind(this)} className='btn btn-primary'>
                         Create Project
                     </button>
