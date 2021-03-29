@@ -119,6 +119,7 @@ export default class ProjectCard extends React.Component {
                     value={this.state.inputValue}
                     onChange={({ target: { value } }) => this.setState({ inputValue: value })}
                     onBlur={this.onBlurUpdateProjectTitle.bind(this)}
+                    autoFocus
                 />
             );
         return <div className='float-left'>{this.props.project.title}</div>;
