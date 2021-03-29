@@ -13,6 +13,12 @@ export default new (class AuthService extends React.Component {
         });
     }
 
+    singIn() {
+        return new Promise((resolve) => {
+            resolve({ success: 'user created successfully!' });
+        });
+    }
+
     revalidateToken(token) {
         return new Promise((resolve) => {
             if (!!token) {
