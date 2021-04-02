@@ -1,31 +1,43 @@
-const React = require('react');
-const axios = require('axios');
+import api from './api';
 
-export default new (class TaskService extends React.Component {
-    constructor(props) {
-        super(props);
-        this.defaultURL = 'http://localhost:3000';
+class TaskService {
+    constructor() {
+        this.api = api();
     }
 
-    createTask(task) {
+    errorHandler = function (err) {
+        if (err && err.response && err.response.data && err.response.data.message) {
+            return { error: { message: err.response.data.message } };
+        }
+        return { error: err };
+    };
+
+    createTask(task, project_id) {
         return new Promise((resolve) => {
-            let error = { message: 'could not create task' };
-            if (!task) resolve({ error });
-            resolve({ task: { ...task, id:3, checked: false } });
+            this.api
+                .post('/task', { ...task, project_id })
+                .then((resp) => resolve({ task: resp.data }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    findTask(id) {
-        return new Promise((resolve, reject) => {
-            resolve({ id, name: 'task 1', done: false });
+    updateTask(taskUpdated) {
+        return new Promise((resolve) => {
+            this.api
+                .put(`/task/${taskUpdated.id}`, taskUpdated)
+                .then(() => resolve({ task: taskUpdated }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
-    }
-
-    updateTask(newTask) {
-        return new Promise((resolve) => resolve({ task: newTask }));
     }
 
     deleteTask(taskId) {
-        return new Promise((resolve) => resolve({ task: { id: taskId } }));
+        return new Promise((resolve) => {
+            this.api
+                .delete(`/task/${taskId}`)
+                .then((resp) => resolve({ resp: resp.data }))
+                .catch((err) => resolve(this.errorHandler(err)));
+        });
     }
-})();
+}
+
+export default new TaskService(api);

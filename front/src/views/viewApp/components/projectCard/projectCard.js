@@ -30,12 +30,12 @@ export default class ProjectCard extends React.Component {
     }
 
     async onDeleteProject() {
-        const { project, error } = await ProjectService.deleteProject(this.props.project.id);
-        console.log('deleteProject', project);
+        const { error } = await ProjectService.deleteProject(this.props.project.id);
         if (error) {
             alert(error.message);
             return;
         }
+        console.log('deleteProject', this.props.project);
         this.props.onDelete(this.props.project.id);
     }
 
@@ -76,9 +76,13 @@ export default class ProjectCard extends React.Component {
     }
 
     async createNewTask() {
-        let { task: newTask } = await TaskService.createTask(this.state.newTask);
+        const { error, task: newTask } = await TaskService.createTask(this.state.newTask, this.props.project.id);
+        if (error) {
+            alert(error.message);
+            return;
+        }
         const { id, title, tasks } = this.props.project;
-        let newTaskArray = [...tasks, newTask];
+        const newTaskArray = [...tasks, newTask];
         this.onUpdateProject({ id, title, tasks: newTaskArray });
         this.setState({ newTask: { name: '' } });
     }
