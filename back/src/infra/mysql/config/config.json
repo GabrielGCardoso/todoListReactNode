@@ -5,7 +5,13 @@
     "database": "todo_list",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "timestamps": false
+    "timestamps": false,
+    "define": {
+      "paranoid": false,
+      "timestamps": true,
+      "freezeTableName": true,
+      "underscored": true
+    }
   },
   "test": {
     "username": "root",
@@ -13,7 +19,12 @@
     "database": "todo_list",
     "host": "db",
     "dialect": "mysql",
-    "timestamps": false
+    "define": {
+      "paranoid": false,
+      "timestamps": true,
+      "freezeTableName": true,
+      "underscored": true
+    }
   },
   "production": {
     "username": "root",
@@ -21,6 +32,11 @@
     "database": "todo_list",
     "host": "db",
     "dialect": "mysql",
-    "timestamps": false
+    "define": {
+      "paranoid": false,
+      "timestamps": true,
+      "freezeTableName": true,
+      "underscored": true
+    }
   }
 }

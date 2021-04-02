@@ -1,69 +1,52 @@
-const React = require('react');
-const axios = require('axios');
-
-export default new (class ProjectService extends React.Component {
-    constructor(props) {
-        super(props);
-        this.defaultURL = 'http://localhost:3000';
+import api from './api';
+class ProjectService {
+    constructor() {
+        this.api = api();
     }
+
+    errorHandler = function (err) {
+        if (err && err.response && err.response.data && err.response.data.message) {
+            return { error: { message: err.response.data.message } };
+        }
+        return { error: err };
+    };
 
     createProject(projectData) {
         return new Promise((resolve) => {
-            if (!projectData) {
-                resolve({ error: { message: 'something went wrong!' } });
-            }
-            let project = { ...projectData, id: 10, tasks: [{ id: 1, name: 'let it go' }] };
-            resolve({ project });
+            this.api
+                .post('/project', projectData)
+                .then((resp) => resolve({ project: { ...resp.data, tasks: [] } }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
     deleteProject(projectId) {
         return new Promise((resolve) => {
-            if (!projectId) {
-                resolve({ error: { message: 'could not delete the project' } });
-            }
-            let project = { id: projectId };
-            resolve({ project });
+            this.api
+                .delete(`/project/${projectId}`)
+                .then((resp) => resolve({ resp: resp.data }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
     updateProject(projectData) {
         return new Promise((resolve) => {
-            if (!projectData) {
-                resolve({ error: { message: 'could not update the project' } });
-            }
-            let project = { ...projectData /*, tasks: [{ id: 1, name: 'let it go' }]*/ };
-            resolve({ project });
+            this.api
+                .put(`/project/${projectData.id}`, projectData)
+                .then(() => resolve({ project: projectData }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
     getProjects(tk) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             if (!tk) resolve({ error: { message: 'tk not found' } });
-            resolve({
-                projects: [
-                    {
-                        id: 1,
-                        title: 'p1',
-                        tasks: [{ id: 1, name: 'aaa', checked: true }],
-                    },
-                    {
-                        id: 2,
-                        title: 'p2',
-                        tasks: [{ id: 1, name: 'uuu', checked: false }],
-                    },
-                    {
-                        id: 3,
-                        title: 'p3',
-                        tasks: [{ id: 1, name: 'xD', checked: true }],
-                    },
-                    {
-                        id: 4,
-                        title: 'p4',
-                        tasks: [{ id: 1, name: 'test', checked: false }],
-                    },
-                ],
-            });
+            this.api
+                .get(`/project/projects`)
+                .then((resp) => resolve({ projects: resp.data.projects }))
+                .catch((err) => resolve(this.errorHandler(err)));
         });
     }
-})();
+}
+
+export default new ProjectService(api);

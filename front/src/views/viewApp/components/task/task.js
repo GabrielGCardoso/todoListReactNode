@@ -47,6 +47,10 @@ export default class Task extends React.Component {
         this.onUpdate({ ...this.props.task, name: this.state.inputValue });
     }
 
+    renderTaskName() {
+        if (this.props.task.checked) return <strike>{this.props.task.name}</strike>;
+        return this.props.task.name;
+    }
     renderCheckbox() {
         if (this.state.isUpdate)
             return (
@@ -55,6 +59,7 @@ export default class Task extends React.Component {
                     value={this.state.inputValue}
                     onChange={({ target: { value } }) => this.setState({ inputValue: value })}
                     onBlur={this.onBlurUpdateTaskName.bind(this)}
+                    autoFocus
                 />
             );
 
@@ -68,9 +73,8 @@ export default class Task extends React.Component {
                     style={{ paddingRight: '10px' }}
                 />
                 <label style={{ paddingRight: '10px' }} className='form-check-label' htmlFor='flexCheckDefault'>
-                    {this.props.task.name}
+                    {this.renderTaskName()}
                 </label>
-
                 <FontAwesomeIcon
                     onClick={() => this.setState({ isUpdate: true })}
                     style={{ marginRight: '3px', marginLeft: '3px' }}

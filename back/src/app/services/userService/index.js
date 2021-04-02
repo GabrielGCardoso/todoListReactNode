@@ -13,6 +13,10 @@ class UsersService {
         const { user_name, password } = data;
         return this.repository.findOne({ where: { user_name, password } });
     }
+
+    async getAllProjectsWithTasks(id) {
+        return this.repository.getAllAggregateTables({ where: { id } });
+    }
 }
 
 module.exports = UsersService;
