@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     );
     users.associate = function (models) {
         // associations can be defined here
-        // users.belongsTo(models.projects);
+        users.hasMany(models.projects);
     };
     return users;
 };

@@ -21,10 +21,7 @@ class Repository {
      */
     async sum({ column, query, additionalColumns = [] }) {
         const result = await this.entity.findAll({
-            attributes: [
-                ...additionalColumns,
-                [sequelize.fn('sum', sequelize.col(column)), 'total_amount'],
-            ],
+            attributes: [...additionalColumns, [sequelize.fn('sum', sequelize.col(column)), 'total_amount']],
             ...query,
         });
         return result;
@@ -38,6 +35,16 @@ class Repository {
 
     async destroy(query) {
         return this.entity.destroy(query);
+    }
+
+    async findAll(query) {
+        return this.entity.findAll({
+            ...query,
+        });
+    }
+
+    async update({ values, options }) {
+        return this.entity.update(values, options);
     }
 
     async findOne(query) {
