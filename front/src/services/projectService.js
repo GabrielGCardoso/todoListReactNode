@@ -11,28 +11,28 @@ class ProjectService {
         return { error: err };
     };
 
-    createProject(projectData) {
+    createProject(projectData, tk) {
         return new Promise((resolve) => {
             this.api
-                .post('/project', projectData)
+                .post('/project', projectData, { headers: { authorization: tk } })
                 .then((resp) => resolve({ project: { ...resp.data, tasks: [] } }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    deleteProject(projectId) {
+    deleteProject(projectId, tk) {
         return new Promise((resolve) => {
             this.api
-                .delete(`/project/${projectId}`)
+                .delete(`/project/${projectId}`, { headers: { authorization: tk } })
                 .then((resp) => resolve({ resp: resp.data }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    updateProject(projectData) {
+    updateProject(projectData, tk) {
         return new Promise((resolve) => {
             this.api
-                .put(`/project/${projectData.id}`, projectData)
+                .put(`/project/${projectData.id}`, projectData, { headers: { authorization: tk } })
                 .then(() => resolve({ project: projectData }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });
@@ -42,7 +42,7 @@ class ProjectService {
         return new Promise((resolve) => {
             if (!tk) resolve({ error: { message: 'tk not found' } });
             this.api
-                .get(`/project/projects`)
+                .get(`/project/projects`, { headers: { authorization: tk } })
                 .then((resp) => resolve({ projects: resp.data.projects }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });

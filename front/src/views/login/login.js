@@ -64,6 +64,10 @@ export default class Login extends React.Component {
                             <img src={UserLogo} height='130px' id='icon' alt='User Icon' />
                         </div>
 
+                        <div>
+                            <h4>login here!</h4>
+                        </div>
+
                         <input
                             onChange={({ target: { value } }) => this.setState({ user_name: value })}
                             type='text'

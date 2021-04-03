@@ -33,7 +33,7 @@ class AuthService {
     revalidateToken(token) {
         return new Promise((resolve) => {
             if (!!token) {
-                resolve({ token: '12341234' });
+                resolve({ token });
             }
             resolve({ error: 'token not found' });
         });

@@ -1,3 +1,5 @@
+const { Errors, Exceptions } = require('src/infra/exceptions');
+
 class AuthService {
     constructor() {
         this.jwt = require('jsonwebtoken');
@@ -12,6 +14,17 @@ class AuthService {
             'secret'
         );
         return { token };
+    }
+
+    async validateToken(token) {
+        return this.jwt.verify(token, 'secret', function (err, decoded) {
+            if (err) throw new Error(err);
+            const now = Date.now().valueOf() / 1000;
+            if (typeof decoded.exp !== 'undefined' && decoded.exp < now) {
+                throw Exceptions.unauthorized('token expired, please make login again!');
+            }
+            return decoded.data;
+        });
     }
 }
 

@@ -45,6 +45,21 @@ module.exports = {
 
         return error;
     },
+    
+    [applicationError.UNAUTHORIZED](error, error_code) {
+        const defaultErrorCode = '401';
+
+        error = this._buildError(error);
+
+        const overwriteErrorCode = !!(error && error.error_code && error_code);
+        if (overwriteErrorCode)
+            error.error_code = this._buildErrorCode(error_code);
+
+        error.error_type = applicationError.INTEGRATION;
+        error.error_code = error.error_code || this._buildErrorCode(error_code, defaultErrorCode);
+
+        return error;
+    },
 
     [applicationError.INTEGRATION](error, error_code) {
         const defaultErrorCode = '503';

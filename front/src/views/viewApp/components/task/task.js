@@ -16,7 +16,7 @@ export default class Task extends React.Component {
     }
 
     async onDelete() {
-        const { task, error } = await TaskService.deleteTask(this.props.task.id);
+        const { task, error } = await TaskService.deleteTask(this.props.task.id, localStorage.getItem('token'));
         console.log('onDeleteTask', task);
         if (error) {
             alert(error.message);
@@ -27,7 +27,7 @@ export default class Task extends React.Component {
     }
 
     async onUpdate(taskUpdated) {
-        const { task, error } = await TaskService.updateTask(taskUpdated);
+        const { task, error } = await TaskService.updateTask(taskUpdated, localStorage.getItem('token'));
         if (error) {
             alert(error.message);
             return;

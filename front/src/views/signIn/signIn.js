@@ -62,13 +62,17 @@ export default class WeatherView extends React.Component {
                             <img src={UserLogo} height='130px' id='icon' alt='User Icon' />
                         </div>
 
+                        <div>
+                            <h4>sign in here!</h4>
+                        </div>
+
                         <input
                             type='text'
                             onChange={({ target: { value } }) => this.setState({ user_name: value })}
                             id='login'
                             className='fadeIn second'
                             name='login'
-                            placeholder='login'
+                            placeholder='sign in'
                         />
                         <input
                             type='password'
