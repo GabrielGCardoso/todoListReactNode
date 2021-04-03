@@ -12,28 +12,28 @@ class TaskService {
         return { error: err };
     };
 
-    createTask(task, project_id) {
+    createTask(task, project_id, tk) {
         return new Promise((resolve) => {
             this.api
-                .post('/task', { ...task, project_id })
+                .post('/task', { ...task, project_id }, { headers: { authorization: tk } })
                 .then((resp) => resolve({ task: resp.data }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    updateTask(taskUpdated) {
+    updateTask(taskUpdated, tk) {
         return new Promise((resolve) => {
             this.api
-                .put(`/task/${taskUpdated.id}`, taskUpdated)
+                .put(`/task/${taskUpdated.id}`, taskUpdated, { headers: { authorization: tk } })
                 .then(() => resolve({ task: taskUpdated }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });
     }
 
-    deleteTask(taskId) {
+    deleteTask(taskId, tk) {
         return new Promise((resolve) => {
             this.api
-                .delete(`/task/${taskId}`)
+                .delete(`/task/${taskId}`, { headers: { authorization: tk } })
                 .then((resp) => resolve({ resp: resp.data }))
                 .catch((err) => resolve(this.errorHandler(err)));
         });

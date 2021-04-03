@@ -20,7 +20,7 @@ export default class ProjectCard extends React.Component {
 
     //project functions
     async onUpdateProject(projectUpdated) {
-        const { project, error } = await ProjectService.updateProject(projectUpdated);
+        const { project, error } = await ProjectService.updateProject(projectUpdated, localStorage.getItem('token'));
         console.log('updateProject', project);
         if (error) {
             alert(error.message);
@@ -30,7 +30,7 @@ export default class ProjectCard extends React.Component {
     }
 
     async onDeleteProject() {
-        const { error } = await ProjectService.deleteProject(this.props.project.id);
+        const { error } = await ProjectService.deleteProject(this.props.project.id, localStorage.getItem('token'));
         if (error) {
             alert(error.message);
             return;
@@ -76,7 +76,11 @@ export default class ProjectCard extends React.Component {
     }
 
     async createNewTask() {
-        const { error, task: newTask } = await TaskService.createTask(this.state.newTask, this.props.project.id);
+        const { error, task: newTask } = await TaskService.createTask(
+            this.state.newTask,
+            this.props.project.id,
+            localStorage.getItem('token')
+        );
         if (error) {
             alert(error.message);
             return;

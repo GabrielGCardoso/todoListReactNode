@@ -11,7 +11,10 @@ export default class CreateProjectCard extends React.Component {
     }
 
     async createProject() {
-        const { project, error } = await ProjectService.createProject({ title: this.state.actualName });
+        const { project, error } = await ProjectService.createProject(
+            { title: this.state.actualName },
+            localStorage.getItem('token')
+        );
         if (error) {
             alert(error.message);
             return;
